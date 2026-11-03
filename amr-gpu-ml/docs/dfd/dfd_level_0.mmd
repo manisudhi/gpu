@@ -1,0 +1,14 @@
+flowchart TD
+    EXT_NCBI[("External Entity: NCBI Pathogen Detection Repository")]
+    USER[("External Entity: AMR Researcher / Analyst")]
+    
+    SYSTEM(["0.0 GPU-Accelerated AMR Pattern Analysis System (Apple Metal / M3)"])
+
+    EXT_NCBI -->|"Raw Genomic Genotypes & Laboratory AST Antibiograms"| SYSTEM
+    USER -->|"Analysis Configurations, Query Profiles, Target Antibiotics"| SYSTEM
+    SYSTEM -->|"Similarity Neighborhoods, Clusters, Anomaly Flags, Performance Metrics"| USER
+
+    classDef entity fill:#fbf0ea,stroke:#d4380d,stroke-width:2px;
+    classDef process fill:#e6f7ff,stroke:#1890ff,stroke-width:2px;
+    class EXT_NCBI,USER entity;
+    class SYSTEM process;

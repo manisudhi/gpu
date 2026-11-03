@@ -1,0 +1,297 @@
+GPU-ACCELERATED ANTIMICROBIAL RESISTANCEPATTERN ANALYSIS AND SIMILARITY DETECTION
+Using Parallel Computing with Apple Metal Compute Shaders
+PROJECT REPORT
+Student Name(s): __________________________________________
+Register Number(s): _______________________________________
+Department: ______________________________________________
+Institution: ______________________________________________
+Project Guide: ____________________________________________
+Academic Year: ___________________________________________
+Target Hardware: Apple MacBook Air M3  |  GPU Framework: Apple Metal
+Abstract
+Antimicrobial resistance (AMR) creates a growing need for computational methods that can compare large numbers of resistance profiles, identify recurring patterns, group similar records, and highlight unusual observations. This project proposes a GPU-accelerated AMR analysis system designed for Apple Silicon hardware, specifically the MacBook Air M3, using Apple Metal and Metal Compute Shaders. The system treats AMR records as numerical feature vectors and develops a CPU sequential implementation as a baseline before moving computationally intensive operations to the GPU.
+The central GPU workload is parallel similarity computation: independent records or feature comparisons can be evaluated concurrently by thousands of GPU threads. The same feature representation can also support K-means clustering and distance-based anomaly detection. A branching architecture is used so that the preprocessed feature matrix feeds both a CPU reference path and a GPU/Metal path. Their outputs are then integrated for correctness checking and performance evaluation. Execution time, throughput, speedup, and scalability are used to assess the benefit of parallel execution.
+The project is designed as an analytical and performance-comparison system rather than a clinical diagnostic tool. Expected outcomes include faster processing for sufficiently large workloads, reproducible AMR similarity and grouping results, and a clear demonstration of when GPU parallelism is advantageous and when overhead may dominate.
+Keywords
+Antimicrobial resistance, GPU computing, Apple Metal, Metal Compute Shaders, parallel computing, similarity analysis, K-means clustering, anomaly detection, Apple Silicon, performance evaluation.
+Table of Contents
+Note: In Microsoft Word, right-click the table of contents and choose “Update Field” to populate page numbers after editing.
+1. Introduction
+Antimicrobial resistance occurs when microorganisms such as bacteria, viruses, fungi, or parasites change over time and no longer respond effectively to medicines intended to treat them. AMR surveillance produces structured records containing information such as organism, antibiotic, geographic or institutional context, year, and a resistance-related measurement or category. When these records become large, repeated comparisons and statistical operations can require substantial computation.
+This project focuses on the computational side of AMR analysis. Rather than building a medical decision system, it develops a parallel-processing pipeline that can transform AMR observations into feature vectors and execute repeated numerical calculations efficiently. The GPU is therefore a computational engine: it performs many independent distance, similarity, assignment, or scoring operations concurrently.
+The implementation targets the Apple MacBook Air M3. Because the M3 uses Apple Silicon, the project uses Apple's Metal framework and Metal Shading Language rather than CUDA. The host application prepares data and dispatches kernels, while the GPU executes the parallel kernels over feature matrices and result buffers.
+2. Problem Statement
+A conventional sequential AMR analysis pipeline processes records one operation at a time on the CPU. For small datasets this is practical, but repeated pairwise comparisons, distance calculations, clustering assignments, and anomaly scores can become increasingly expensive as the number of records and features grows.
+The project addresses the following problem: how can computationally intensive AMR pattern and similarity operations be redesigned as data-parallel workloads and executed efficiently on an Apple Silicon GPU, while preserving correctness and providing a measurable CPU-versus-GPU performance comparison?
+3. Aim
+To develop a GPU-accelerated antimicrobial resistance analysis system that uses Apple Metal Compute Shaders to parallelize similarity detection, clustering, and anomaly-oriented computations, and to evaluate the performance and scalability of GPU execution against a CPU sequential baseline.
+4. Objectives
+Collect or prepare a structured AMR dataset suitable for numerical analysis.
+Clean, encode, normalize, and transform AMR records into a numerical feature matrix.
+Implement a CPU reference version of the main analytical operations.
+Design Metal Compute Shaders for independent, parallel numerical calculations.
+Compute similarity or distance scores between AMR records.
+Apply GPU-friendly K-means clustering to identify groups of related resistance profiles.
+Implement a distance-based anomaly score to flag unusual profiles for further investigation.
+Validate GPU results against the CPU reference implementation.
+Measure execution time, throughput, speedup, and scalability across increasing workloads.
+Present analytical results and performance findings in a clear report.
+5. Motivation
+The project is motivated by the intersection of two needs: AMR surveillance requires computational comparison of heterogeneous records, and modern GPUs are designed to execute large numbers of similar numerical operations concurrently. A successful implementation demonstrates practical GPU programming on consumer Apple Silicon hardware rather than relying on a dedicated CUDA workstation.
+The project also provides an educational contribution: the same data can be processed through a sequential CPU path and a parallel GPU path, making the effect of parallelization measurable. The architecture exposes where GPU acceleration helps and where data transfer, kernel launch, or small workload overhead can limit gains.
+6. Existing System
+Primarily CPU-based sequential processing.
+Similarity calculations are performed record by record or through conventional vectorized CPU routines.
+Clustering and anomaly calculations may be executed on the CPU without explicit GPU kernel design.
+Performance is often reported as analytical output rather than as a detailed CPU-versus-GPU benchmark.
+Visualization may be separated from the computational pipeline.
+7. Proposed System
+The proposed system introduces a branching architecture. AMR data first passes through ingestion, validation, preprocessing, and feature encoding. The resulting feature matrix then feeds two computational paths: a CPU sequential baseline and a GPU path implemented with Metal Compute Shaders. The GPU path can branch into similarity detection, K-means clustering, and anomaly detection. Results from these branches are integrated and compared with the CPU reference before visualization and reporting.
+Figure 1. Proposed branching system architecture with CPU/GPU processing paths.
+8. System Requirements
+8.1 Hardware Requirements
+Component
+Requirement
+Computer
+Apple MacBook Air with M3 chip or equivalent Apple Silicon
+Memory
+Sufficient unified memory for the selected dataset and benchmark sizes
+Storage
+Space for source dataset, generated feature matrices, logs, and results
+GPU
+Integrated Apple GPU exposed through Metal
+Network
+Optional; only required if the selected dataset is retrieved online
+8.2 Software Requirements
+Software
+Purpose
+macOS
+Operating system and Apple Silicon runtime
+Xcode / Swift or Objective-C host environment
+Application and Metal integration
+Metal Framework
+GPU command queues, buffers, pipeline states, dispatch
+Metal Shading Language
+Implementation of compute kernels
+Python (optional)
+Data preparation, validation, plotting, and experiment automation
+CSV/JSON/Parquet tools
+Dataset ingestion depending on source format
+9. Technology Stack
+Layer
+Technology
+Role
+Hardware
+Apple M3
+Target CPU + integrated GPU
+GPU API
+Apple Metal
+GPU resource and command management
+Kernel language
+Metal Shading Language
+Compute shader implementation
+Host code
+Swift / Objective-C / Python-assisted workflow
+Data preparation and kernel dispatch
+Data
+CSV / structured AMR dataset
+Input records
+Analysis
+Vector distances, K-means, anomaly scoring
+Core computational workloads
+Output
+Tables, charts, logs
+Results and benchmarking
+10. Dataset Description
+The dataset should contain structured AMR observations. Suitable fields may include organism or pathogen identifier, antibiotic identifier, year, region or location category, and a resistance measurement such as a categorical susceptibility class or numerical rate. The exact dataset should be documented in the implementation report with its source, number of records, feature definitions, missing-value policy, and preprocessing decisions.
+For GPU benchmarking, the project should test multiple workload sizes. If the original public dataset is smaller than the benchmark target, the report should clearly distinguish the original records from any controlled benchmark expansion or synthetic scaling used only to study computational behavior. Synthetic expansion must not be presented as additional real-world AMR observations.
+11. Methodology
+Acquire and inspect the AMR dataset.
+Remove invalid records, resolve missing values, encode categorical fields, and normalize numerical fields where appropriate.
+Construct a feature matrix in which each AMR record is represented as a numerical vector.
+Implement a CPU reference algorithm for similarity, clustering, and/or anomaly scoring.
+Allocate Metal buffers and transfer the feature matrix and required parameters to GPU memory.
+Dispatch Metal compute kernels using threadgroups sized for the target workload.
+Read result buffers back to the host and validate selected outputs against the CPU implementation.
+Measure execution time with consistent warm-up and repeated trials.
+Repeat experiments for increasing workload sizes and analyze speedup and throughput.
+Generate tables and visualizations for analytical and performance results.
+12. Detailed Project Phases
+Phase 1 — Dataset Collection and Understanding
+Identify a suitable AMR dataset, inspect its schema, determine the target analytical fields, and document the provenance and limitations of the data.
+Phase 2 — Data Preprocessing
+Handle missing values, normalize numerical features, encode categorical attributes, and create a compact numerical feature matrix.
+Phase 3 — CPU Baseline
+Develop a correct sequential implementation first. The CPU version provides the reference output against which GPU results are checked.
+Phase 4 — GPU Parallelization
+Identify independent operations, implement Metal compute kernels, allocate buffers, configure pipeline states, dispatch threadgroups, and retrieve results.
+Phase 5 — AMR Similarity Analysis
+Calculate a distance or similarity score between a query profile and many records in parallel.
+Phase 6 — GPU-Based Clustering
+Use K-means or a similar clustering method. The assignment step is highly parallel because each record can independently find its nearest centroid.
+Phase 7 — Anomaly Detection
+Compute a distance-based or cluster-based anomaly score. Records with unusually high scores can be flagged for inspection.
+Phase 8 — Performance Evaluation
+Compare CPU and GPU execution time, calculate speedup and throughput, and identify workload sizes at which GPU acceleration becomes beneficial.
+Phase 9 — Visualization and Reporting
+Present similarity outputs, clusters, anomaly candidates, benchmark results, architecture diagrams, limitations, and future scope.
+13. CPU Baseline Implementation
+The CPU baseline should prioritize correctness and reproducibility. For each operation, the CPU loops through records and computes the same mathematical quantity later executed by the GPU. The baseline time should include the computational work but should be measured consistently with the GPU experiment.
+13.1 CPU Similarity Logic
+For a query vector q and record vector x, a simple distance can be Euclidean distance: d(q,x) = sqrt(sum_i (q_i - x_i)^2). Cosine similarity may be used when direction rather than magnitude is more meaningful. The selected metric must be stated clearly and used consistently.
+13.2 Why the CPU Baseline Matters
+The baseline is the correctness oracle for the project. GPU acceleration is meaningful only if the parallel implementation produces equivalent results within an explicitly stated numerical tolerance.
+14. GPU Implementation Using Apple Metal
+Metal provides low-level access to the Apple GPU through command queues, buffers, pipeline states, and compute encoders. A compute shader is compiled into a compute pipeline state and dispatched over a grid of threads. The project maps independent AMR calculations to these threads.
+14.1 GPU Data Flow
+The host prepares a contiguous feature matrix, creates GPU buffers, binds buffers to the compute pipeline, dispatches the kernel, and waits for completion. The result buffer is then read or synchronized for host-side evaluation. For repeated workloads, buffer reuse can reduce allocation overhead.
+14.2 Thread Mapping
+A simple mapping assigns one GPU thread to one record for a query-based similarity calculation. The global thread identifier selects the record index. Each thread reads the record's feature values, computes the score, and writes one result value. This avoids inter-thread dependencies in the core scoring operation.
+Figure 2. Host-side and Apple Metal GPU execution architecture.
+15. Role of the GPU
+The primary role of the GPU is to accelerate repeated, independent numerical operations. The project does not use the GPU merely for visualization. Its main computational contribution is parallel execution of workloads such as distance calculations, nearest-centroid assignments, and anomaly scores.
+Workload
+Parallelization Strategy
+Expected GPU Benefit
+Similarity / distance
+One thread evaluates one record against a query
+High for large batches of independent comparisons
+K-means assignment
+One thread finds nearest centroid for one record
+High because record assignments are independent
+Anomaly scoring
+One thread computes one record's score
+High for large batches
+Preprocessing
+Selected transformations can be parallelized
+Depends on operation and memory pattern
+Visualization
+Primarily host-side
+Not the central GPU objective
+16. AMR Similarity Analysis
+Similarity analysis is the central GPU workload. After preprocessing, each AMR record is represented by a feature vector. Given a query profile, the system calculates a distance or similarity score between the query and many records. These comparisons are independent and therefore suitable for data-parallel execution.
+Figure 3. Parallel AMR similarity analysis workflow.
+A practical implementation can return the top-k most similar records rather than storing every pairwise score. For a full all-pairs similarity matrix, memory requirements increase rapidly with record count, so tiled or batched approaches may be preferable.
+17. GPU-Based Clustering
+K-means clustering partitions feature vectors into K groups by alternating between assignment and centroid-update stages. The assignment stage is especially GPU-friendly: each record can independently compute its distance to every centroid and select the closest one.
+A simplified iteration is: (1) assign each record to its nearest centroid; (2) accumulate feature sums and counts per cluster; (3) update centroid coordinates; and (4) repeat until convergence or a maximum iteration count is reached. Reduction operations in the centroid-update stage require more careful synchronization than the independent assignment stage.
+18. Anomaly Detection
+The project can use a simple distance-based anomaly score. After clustering, a record's distance from its assigned centroid can be treated as a measure of how unusual the record is relative to its cluster. Records above a chosen threshold become anomaly candidates. The threshold should be selected from a documented statistical rule or validation procedure rather than arbitrarily changed to produce attractive results.
+An anomaly flag is an analytical indication, not a clinical conclusion. It should be interpreted as a prompt for further inspection of the underlying record, data quality, or epidemiological context.
+19. System Architecture
+The architecture below replaces the earlier linear architecture with an explicit branching data-flow model. The data source enters the system once. After validation and feature encoding, the feature matrix splits into CPU and GPU processing paths. The GPU path then branches into the three major analytical workloads. Their results converge with CPU timing and reference results before reporting.
+Figure 4. Final branching architecture: one data source, multiple processing branches, and converged results.
+20. Data Flow Diagram — Level 0
+The Level 0 DFD presents the complete analytical platform as one process and shows its interaction with the external AMR data source and researcher/user.
+Figure 5. DFD Level 0 context diagram.
+21. Data Flow Diagram — Level 1
+The Level 1 DFD decomposes the system into ingestion, preprocessing, CPU and GPU analysis, similarity, clustering, anomaly detection, performance evaluation, result storage, and reporting processes. Standard DFD conventions are used: rectangles represent external entities, rounded rectangles represent processes, open-ended structures represent data stores, and arrows represent labeled data flows.
+Figure 6. DFD Level 1 detailed data flow.
+22. GPU Architecture and Execution Model
+The GPU execution model separates host responsibilities from device responsibilities. The host controls data preparation, Metal resources, command encoding, dispatch, synchronization, and result retrieval. The GPU executes the compute shader across many threads. The design aims to maximize useful arithmetic per memory access while minimizing unnecessary host-device synchronization.
+22.1 Main GPU Components
+Host CPU: prepares data and controls the Metal command pipeline.
+Metal buffers: hold feature matrices, labels, centroids, scores, and intermediate values.
+Compute pipeline state: represents the compiled Metal compute shader.
+Compute encoder: binds buffers and configures dispatch.
+Threadgroups: organize GPU threads for efficient scheduling.
+Compute threads: perform independent record-level calculations.
+Result buffers: store scores, cluster assignments, or anomaly values for retrieval.
+Figure 7. Metal-oriented GPU execution model.
+23. Algorithms and Pseudocode
+23.1 CPU Similarity
+FOR each record x in dataset:    distance = 0    FOR each feature i:        diff = query[i] - x[i]        distance += diff * diff    score[x] = sqrt(distance)RETURN score
+23.2 GPU Similarity Kernel
+thread_id = global_thread_id()IF thread_id < number_of_records:    x = feature_matrix[thread_id]    distance = 0    FOR each feature i:        diff = query[i] - x[i]        distance += diff * diff    result[thread_id] = sqrt(distance)
+23.3 K-means Assignment
+FOR each record x in parallel:    best_cluster = 0    best_distance = distance(x, centroid[0])    FOR k = 1 to K-1:        d = distance(x, centroid[k])        IF d < best_distance:            best_distance = d            best_cluster = k    assignment[x] = best_cluster
+23.4 Performance Metrics
+Speedup = CPU execution time / GPU execution timeThroughput = number of processed records / execution timeGPU efficiency can be discussed qualitatively using occupancy, memory behavior, dispatch overhead, and workload size where measurement tools are available.
+24. Performance Evaluation Methodology
+Performance measurements must be made under controlled conditions. The same input, feature representation, mathematical metric, and stopping criteria should be used for CPU and GPU implementations. Multiple repetitions should be recorded and summarized using mean and, where appropriate, variation such as standard deviation.
+Benchmark Size
+CPU Time
+GPU Kernel Time
+End-to-End GPU Time
+Speedup
+Throughput
+20,000 records
+[measure]
+[measure]
+[measure]
+[calculate]
+[calculate]
+50,000 records
+[measure]
+[measure]
+[measure]
+[calculate]
+[calculate]
+100,000 records
+[measure]
+[measure]
+[measure]
+[calculate]
+[calculate]
+500,000 records
+[measure]
+[measure]
+[measure]
+[calculate]
+[calculate]
+1,000,000 records
+[measure]
+[measure]
+[measure]
+[calculate]
+[calculate]
+Important: the table intentionally contains placeholders. Actual speedups should be obtained by running the implementation on the target MacBook Air M3. No fabricated performance number should be included in the final academic submission.
+25. Expected Results
+The system should produce reproducible similarity scores for AMR feature vectors.
+K-means should group records into clusters based on the selected feature representation.
+The anomaly module should identify records that are unusually distant from their assigned cluster or reference profile.
+GPU results should agree with the CPU reference within a documented numerical tolerance.
+For sufficiently large parallel workloads, the GPU path is expected to reduce computation time, although small workloads may show limited benefit because of dispatch and memory overhead.
+The benchmark should reveal a workload size at which GPU acceleration becomes more useful and should quantify that crossover experimentally.
+26. Advantages
+Uses the integrated GPU already available on Apple Silicon hardware.
+Demonstrates genuine GPU computation rather than GPU-only visualization.
+Provides a CPU reference path for correctness validation.
+Supports similarity, clustering, and anomaly-oriented analysis from a common feature matrix.
+Can scale computational workload independently from the original dataset through controlled benchmark expansion.
+Provides measurable performance metrics suitable for a GPU programming project.
+27. Limitations
+GPU acceleration is workload-dependent; small datasets may not benefit because of kernel-launch and memory-management overhead.
+The MacBook Air M3 is a fanless consumer system, so sustained workloads may be affected by thermal behavior.
+AMR datasets can contain missing values, inconsistent coding, sampling bias, and heterogeneous measurement conventions.
+Similarity and anomaly scores depend strongly on feature engineering and the selected distance metric.
+Clustering results depend on K, initialization, feature scaling, and convergence criteria.
+The system is an analytical prototype and is not intended to make clinical treatment decisions.
+28. Future Scope
+Implement tiled all-pairs similarity to reduce memory pressure for very large datasets.
+Explore GPU-friendly approximate nearest-neighbor search.
+Use more advanced clustering methods or GPU-optimized dimensionality reduction.
+Add temporal AMR trend analysis across years.
+Add geographic or institution-level pattern analysis where ethically and legally appropriate.
+Use Metal performance tools to profile memory bandwidth, occupancy, and kernel bottlenecks.
+Develop an interactive dashboard for exploring clusters, similarity neighborhoods, and anomaly candidates.
+Evaluate the implementation across multiple Apple Silicon generations.
+29. Conclusion
+This project proposes a practical GPU programming solution for antimicrobial resistance pattern analysis and similarity detection on Apple Silicon. The key design decision is to treat repeated AMR numerical calculations as data-parallel workloads and implement them with Apple Metal Compute Shaders. The system begins with a common data source and preprocessing stage, branches into CPU and GPU execution paths, further divides GPU computation into similarity, clustering, and anomaly workloads, and finally converges results for performance evaluation and reporting.
+The project is technically feasible on a MacBook Air M3 and provides a clear opportunity to demonstrate parallel computing concepts including thread mapping, buffer management, kernel dispatch, synchronization, numerical validation, and performance measurement. The final experimental conclusions should be based on measured results rather than assumed speedups. This makes the project both technically credible and suitable for an academic GPU programming submission.
+30. References
+World Health Organization. Antimicrobial resistance. WHO Fact Sheet. https://www.who.int/news-room/fact-sheets/detail/antimicrobial-resistance
+Apple Developer Documentation. Metal. https://developer.apple.com/metal/
+Apple Developer Documentation. Metal Shading Language. https://developer.apple.com/documentation/metal/metal-shading-language-specification
+MacQueen, J. (1967). Some Methods for Classification and Analysis of Multivariate Observations. Proceedings of the Fifth Berkeley Symposium on Mathematical Statistics and Probability.
+Chandola, V., Banerjee, A., & Kumar, V. (2009). Anomaly Detection: A Survey. ACM Computing Surveys, 41(3). https://doi.org/10.1145/1541880.1541882
+Appendix A — Suggested Experimental Checklist
+Record macOS version and exact M3 configuration.
+Record dataset version, source, number of rows, and feature count.
+Verify that CPU and GPU use identical input data.
+Run warm-up iterations before timing repeated GPU experiments.
+Repeat each benchmark several times and report a consistent summary statistic.
+Separate GPU kernel time from end-to-end time when possible.
+Check numerical agreement between CPU and GPU outputs.
+Do not report synthetic benchmark records as real AMR observations.
+Keep source code, configuration, benchmark logs, and generated results for reproducibility.

@@ -1,0 +1,73 @@
+project:
+  name: "GPU-Accelerated Antimicrobial Resistance Pattern Analysis"
+  target_hardware: "Apple Silicon M3 (Metal GPU)"
+  organism: "Klebsiella pneumoniae"
+  seed: 42
+
+paths:
+  raw_data_dir: "data/raw"
+  interim_data_dir: "data/interim"
+  processed_data_dir: "data/processed"
+  reports_dir: "reports"
+  figures_dir: "reports/figures"
+  tables_dir: "reports/tables"
+  models_dir: "reports/models"
+
+data:
+  ncbi_ftp_url: "https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/latest_kmer/AMR/PDG000000012.2550.amr.metadata.tsv"
+  metadata_filename: "PDG000000012.2550.amr.metadata.tsv"
+  isolates_filename: "isolates.tsv"
+  min_isolate_year: 2010
+  rare_gene_threshold_pct: 0.002  # prune genes present in < 0.2% of isolates
+  target_antibiotics:
+    - "meropenem"
+    - "imipenem"
+    - "ertapenem"
+    - "ceftazidime"
+    - "cefepime"
+    - "ciprofloxacin"
+    - "amikacin"
+    - "gentamicin"
+    - "colistin"
+    - "trimethoprim-sulfamethoxazole"
+  mdr_min_classes: 3
+  intermediate_as_resistant: true  # CLSI non-susceptible standard
+
+device:
+  preferred: "mps"
+  mlx_enabled: true
+  float_dtype: "float32"
+  enable_mps_fallback: true
+  threadgroup_size: 256
+
+models:
+  epochs: 25
+  batch_size: 128
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  hidden_dims: [128, 64]
+  latent_dim: 16
+  dropout: 0.2
+  k_folds: 5
+  early_stopping_patience: 5
+
+clustering:
+  k_values: [2, 3, 4, 5, 6, 8, 10]
+  chosen_k: 5
+  max_iter: 100
+  tolerance: 0.0001
+
+anomaly:
+  score_method: "distance_to_centroid"
+  percentile_threshold: 99.0
+  mad_multiplier: 3.5
+
+characterization:
+  warmup_runs: 3
+  timing_runs: 5
+  scaling_sizes:
+    - 20000
+    - 50000
+    - 100000
+    - 500000
+    - 1000000

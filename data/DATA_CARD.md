@@ -1,0 +1,79 @@
+# Dataset Card: NCBI Pathogen Detection Antimicrobial Resistance (*Klebsiella pneumoniae*)
+
+## 1. Dataset Provenance & Overview
+- **Data Source**: NCBI Pathogen Detection Project (National Center for Biotechnology Information, U.S. National Library of Medicine).
+- **Target URL**: [https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/](https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/)
+- **FTP Repository**: `https://ftp.ncbi.nlm.nih.gov/pathogen/Results/Klebsiella/latest_kmer/AMR/`
+- **File Names**:
+  - `PDG000000012.2550.amr.metadata.tsv` (NCBI Klebsiella AMR and AST Metadata Snapshot)
+  - `isolates.tsv` (NCBI Global Pathogen Detection Isolate Master Registry, 2,945,428 isolates total; 176,634 *Klebsiella pneumoniae* isolates)
+- **Organism**: *Klebsiella pneumoniae* (NCBI Taxon ID: `573` / species taxid `28901`).
+- **Retrieval Date**: October 2026.
+- **AMRFinderPlus Version**: `4.2.5`, Reference Database version `2025-12-03.1`.
+
+---
+
+## 2. Record Counts & Attributes
+
+| Dataset Scope | Record Count | Description |
+| :--- | :--- | :--- |
+| Global Master Isolate Catalog | 2,945,427 | Multi-species pathogen detection registry across Salmonella, E. coli, Klebsiella, etc. |
+| Global *Klebsiella pneumoniae* Isolates | 176,634 | Verified *Klebsiella pneumoniae* genomic assemblies with AMRFinderPlus genotypes. |
+| Curated AST-Antibiogram Subset | 14,583 | Primary analytical subset containing laboratory Antimicrobial Susceptibility Testing (AST) antibiograms. |
+| Laboratory-Confirmed AST Profiles | 694 | Isolates with comprehensive panel of clinical MIC / disk diffusion interpretations (S, I, R). |
+| Total Columns | 67 | Genomic, epidemiological, geographic, temporal, and clinical susceptibility fields. |
+
+---
+
+## 3. Key Feature Definitions
+
+### A. Genomic Features (`AMR_genotypes`, `AMR_genotypes_core`)
+- Acquired resistance genes and point mutations identified using AMRFinderPlus:
+  - **Carbapenemases & Beta-Lactamases**: `blaKPC-2`, `blaKPC-3`, `blaNDM-1`, `blaOXA-48`, `blaSHV-11`, `blaSHV-12`, `blaCTX-M-15`, `blaTEM-1`.
+  - **Aminoglycoside Modifying Enzymes**: `aac(6')-Ib`, `aac(3)-IVa`, `aadA2`, `aph(3')-Ia`, `aph(4)-Ia`.
+  - **Fluoroquinolone Resistance Mutations**: `gyrA_S83I`, `gyrA_S83F`, `parC_S80I`, `oqxA`, `oqxB`.
+  - **Colistin Resistance / Lipid A Modifications**: `crrB_Q10L`, `mgrB` disruptions, `pmrB` point mutations.
+  - **Folate Pathway Inhibitors**: `sul1`, `sul2`, `dfrA12`, `dfrA14`.
+  - **Fosfomycin**: `fosA`, `fosA6`.
+
+### B. Phenotypic Resistance Labels (`AST_phenotypes`)
+- Antimicrobial susceptibility interpretations derived from clinical microbiology laboratory testing:
+  - `S` (Susceptible): High probability of therapeutic success with standard dosage.
+  - `I` (Intermediate): Clinical buffer zone or susceptible with increased exposure. Standardized as **Resistant / Non-Susceptible** in this machine learning pipeline per CLSI / EUCAST surveillance guidelines.
+  - `R` (Resistant): High probability of therapeutic failure.
+- **Multidrug Resistance (MDR)**: Defined as non-susceptibility to at least one agent in $\ge 3$ distinct antimicrobial classes (Magiorakos et al., 2012).
+
+### C. Epidemiological & Metadata Attributes
+- `collection_date` / `year`: Temporal tracking (2010 to 2026).
+- `geo_loc_name`: Geographic origin (country/region).
+- `host`: Host organism (Homo sapiens, livestock, environmental reservoir).
+- `isolation_source`: Clinical specimen (blood, urine, sputum, rectal swab, ocean/environment).
+
+---
+
+## 4. Missing-Value Policy & Preprocessing Decisions
+
+1. **Missing AST Phenotypes**: Isolates without AST phenotypes are excluded from supervised training to ensure ground-truth label integrity, but are retained for unsupervised clustering, similarity detection, and anomaly scoring.
+2. **Rare Resistance Genes**: Ultra-rare genes appearing in $< 0.2\%$ of isolates are pruned from the primary feature matrix to avoid excessive sparsity and overfitting.
+3. **Contiguous Buffer Alignment**: All feature matrices are cast to contiguous 32-bit floating point (`float32`) arrays for zero-copy memory alignment in Apple Metal unified memory.
+4. **Data Leakage Prevention**:
+   - No feature in the input vector is derived from the isolate's own AST antibiogram.
+   - Features represent solely genomic presence/absence of resistance determinants and target-independent epidemiological context.
+   - Time-aware splitting (training on historical years, testing on recent years) is enforced to evaluate real-world generalization and prevent isolate clonal leakage.
+
+---
+
+## 5. Controlled Synthetic Workload Scaling Policy (Report Section 10)
+
+Per Sections 10 and 24 of the project specification:
+- Real curated *Klebsiella pneumoniae* records form the empirical scientific dataset.
+- To characterize GPU scaling behavior at high thread occupancies (20,000, 50,000, 100,000, 500,000, and 1,000,000 records), controlled synthetic expansion is generated by bootstrap sampling with controlled feature perturbation.
+- **Strict Labeling Rule**: All expanded matrices are explicitly labeled as *"Controlled synthetic scaling for computational-behaviour testing only"* and are **never** presented as real biological observations.
+
+---
+
+## 6. Biases and Limitations
+- **Surveillance Bias**: Isolates submitted to NCBI Pathogen Detection are disproportionately enriched for multidrug-resistant hospital outbreaks and clinical infections, rather than commensal bacterial flora.
+- **Geographic Imbalance**: High-income healthcare systems with sequencing infrastructure (USA, UK, Western Europe) contribute a larger proportion of submitted sequences.
+- **Phenotypic Sparsity**: Not every sequenced isolate is tested against an identical battery of antibiotics.
+- **Research Prototype Disclaimer**: This dataset and derived models are intended strictly for computational pattern exploration and GPU systems benchmarking. They **must not** be used for patient treatment decisions.

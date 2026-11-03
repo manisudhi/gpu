@@ -1,0 +1,11 @@
+Rank,Isolate_ID,Anomaly_Score,Year,Country,Source,Gene_Count,Distinctive_Genotypes,Analytical_Hypothesis
+1,PDT000440856.1|SAMEA1920279||Klebsiella pneumoniae|||Generic,5.6176,,,Other_Clinical,46,"aac(3)-IId, aac(3)-IIe, aac(6')-Ib, aac(6')-Ib' (+37)",Hyper-determinant carriage (46 genes vs mean 16.6)
+2,PDT000440843.1|SAMEA1920266||Klebsiella pneumoniae|||Generic,5.6149,,,Other_Clinical,43,"aac(3)-IId, aac(3)-IIe, aac(6')-Ib, aac(6')-Ib' (+37)",Hyper-determinant carriage (43 genes vs mean 16.6)
+3,PDT000440835.1|SAMEA1920259||Klebsiella pneumoniae|||Generic,5.5511,,,Other_Clinical,45,"aac(3)-IId, aac(3)-IIe, aac(6')-Ib, aac(6')-Ib' (+36)",Hyper-determinant carriage (45 genes vs mean 16.6)
+4,PDT000440838.1|SAMEA1920261||Klebsiella pneumoniae|||Generic,5.5416,,,Other_Clinical,44,"aac(3)-IId, aac(3)-IIe, aac(6')-Ib, aac(6')-Ib' (+36)",Hyper-determinant carriage (44 genes vs mean 16.6)
+5,PDT000440831.1|SAMEA1920255||Klebsiella pneumoniae|||Generic,5.5326,,,Other_Clinical,43,"aac(3)-IId, aac(3)-IIe, aac(6')-Ib, aac(6')-Ib' (+36)",Hyper-determinant carriage (43 genes vs mean 16.6)
+6,PDT000440848.1|SAMEA1920274||Klebsiella pneumoniae|||Generic,5.5326,,,Other_Clinical,43,"aac(3)-IId, aac(3)-IIe, aac(6')-Ib, aac(6')-Ib' (+36)",Hyper-determinant carriage (43 genes vs mean 16.6)
+7,PDT000440837.1|SAMEA1920260||Klebsiella pneumoniae|||Generic,5.5326,,,Other_Clinical,43,"aac(3)-IId, aac(3)-IIe, aac(6')-Ib, aac(6')-Ib' (+36)",Hyper-determinant carriage (43 genes vs mean 16.6)
+8,PDT000440849.1|SAMEA1920273||Klebsiella pneumoniae|||Generic,5.5240,,,Other_Clinical,42,"aac(3)-IId, aac(3)-IIe, aac(6')-Ib, aac(6')-Ib' (+36)",Hyper-determinant carriage (42 genes vs mean 16.6)
+9,PDT000440836.1|SAMEA1920257||Klebsiella pneumoniae|||Generic,5.5240,,,Other_Clinical,42,"aac(3)-IId, aac(3)-IIe, aac(6')-Ib, aac(6')-Ib' (+36)",Hyper-determinant carriage (42 genes vs mean 16.6)
+10,PDT000440853.1|SAMEA1920276||Klebsiella pneumoniae|||Generic,5.5240,,,Other_Clinical,42,"aac(3)-IId, aac(3)-IIe, aac(6')-Ib, aac(6')-Ib' (+36)",Hyper-determinant carriage (42 genes vs mean 16.6)

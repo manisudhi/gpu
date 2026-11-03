@@ -1,0 +1,6 @@
+Rank,Isolate ID,Distance,Year,Country,Source,Shared AMR Determinants,Resistant Drugs
+Query (Self),PDT000130466.2|SAMN04448230|GCA_022315595.1|Klebsiella pneumoniae|||Pathogen: clinical or host-associated,0.0000,2013.0,USA,Respiratory,"aac(3)-IId, aac(6')-Ib, aac(6')-Ib-cr5, aadA1, aadA2 (+41)","meropenem, imipenem, ertapenem, cefepime"
+Top-1,PDT000145746.1|SAMN04448229|GCA_001709275.1|Klebsiella pneumoniae|||Pathogen: clinical or host-associated,2.8814,2013.0,USA,Urine,"aac(3)-IId, aac(6')-Ib, aac(6')-Ib-cr5, aadA1, aadA2 (+35)","meropenem, imipenem, ertapenem, cefepime"
+Top-2,PDT000130464.2|SAMN04448227|GCA_022315655.1|Klebsiella pneumoniae|||Pathogen: clinical or host-associated,3.0019,2012.0,USA,Urine,"aac(3)-IId, aac(6')-Ib, aac(6')-Ib-cr5, aadA1, aadA2 (+37)","meropenem, imipenem, ertapenem, cefepime"
+Top-3,PDT000435262.1|SAMN05770971|GCA_046202765.1|Klebsiella pneumoniae||strain 189|Pathogen: clinical or host-associated,3.0267,2014.0,Singapore,Other_Clinical,"aac(3)-IId, aac(6')-Ib, aac(6')-Ib-cr5, aadA1, aadA2 (+36)",None / Susceptible
+Top-4,PDT000445985.1|SAMN07255184|GCA_022230385.1|Klebsiella pneumoniae|||Pathogen: clinical or host-associated,3.1816,2013.0,Canada,Other_Clinical,"aac(3)-IId, aac(6')-Ib, aac(6')-Ib-cr5, aadA1, aadA2 (+37)",None / Susceptible

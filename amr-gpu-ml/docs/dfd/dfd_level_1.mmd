@@ -1,0 +1,54 @@
+flowchart TD
+    EXT_NCBI[("External Entity: NCBI Repository")]
+    USER[("External Entity: AMR Researcher")]
+
+    P1(["1.0 Data Ingestion & Caching"])
+    P2(["2.0 Preprocessing & Feature Encoding"])
+    P3(["3.0 Numerical Correctness Validation"])
+    P4(["4.0 GPU Supervised Resistance Modeling"])
+    P5(["5.0 GPU Parallel Similarity Search"])
+    P6(["6.0 GPU K-Means Clustering"])
+    P7(["7.0 GPU Distance Anomaly Detection"])
+    P8(["8.0 Pipeline Characterization"])
+    P9(["9.0 Visualization & Reporting"])
+
+    D1[("Store D1: Raw NCBI Datasets")]
+    D2[("Store D2: Processed Feature Matrices & Labels")]
+    D3[("Store D3: Model Checkpoints & Latent Embeddings")]
+    D4[("Store D4: Analytical Results & Characterization Logs")]
+
+    EXT_NCBI -->|"Bulk TSV Stream"| P1
+    P1 -->|"Cached TSV Files"| D1
+    D1 -->|"Raw Metadata"| P2
+    P2 -->|"Contiguous float32 [N &times; D]"| D2
+
+    D2 -->|"Feature Subsamples"| P3
+    P3 -->|"Tolerance Agreement Reports"| D4
+
+    D2 -->|"Tensors & Labels"| P4
+    P4 -->|"Trained Weights & Embeddings"| D3
+    P4 -->|"Evaluation Metrics & Attributions"| D4
+
+    D2 -->|"Feature Matrix"| P5
+    USER -->|"Query Isolate Vector"| P5
+    P5 -->|"Top-K Similar Matches"| D4
+
+    D2 -->|"Feature Matrix"| P6
+    P6 -->|"Cluster Centroids & Profiles"| D4
+
+    D2 -->|"Feature Matrix"| P7
+    P6 -->|"Assigned Centroids"| P7
+    P7 -->|"Anomaly Scores & Flagged Outliers"| D4
+
+    D2 -->|"Feature Matrix"| P8
+    P8 -->|"Stage Timings & Throughput Scaling"| D4
+
+    D4 -->|"Figures, Tables, Summary"| P9
+    P9 -->|"Comprehensive AMR Report & Dashboard"| USER
+
+    classDef entity fill:#fbf0ea,stroke:#d4380d,stroke-width:1.5px;
+    classDef process fill:#e6f7ff,stroke:#1890ff,stroke-width:1.5px;
+    classDef store fill:#f9f0ff,stroke:#722ed1,stroke-width:1.5px;
+    class EXT_NCBI,USER entity;
+    class P1,P2,P3,P4,P5,P6,P7,P8,P9 process;
+    class D1,D2,D3,D4 store;

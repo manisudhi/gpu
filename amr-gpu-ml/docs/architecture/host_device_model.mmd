@@ -1,0 +1,28 @@
+flowchart LR
+    subgraph HOST["Host CPU (Python Runtime)"]
+        H1["1. Ingest & Prepare Contiguous Matrix [N &times; D] (float32)"]
+        H2["2. Configure Metal Compute Pipeline State"]
+        H3["3. Command Encoder & Buffer Binding (Shared Memory)"]
+        H4["4. Dispatch 1D Grid & Threadgroups (256 threads/group)"]
+        H7["7. Synchronize & Read Result Buffers to Host"]
+    end
+
+    subgraph GPU["Apple Metal GPU (M3 Unified Memory)"]
+        G1["Unified Memory Buffers<br/>- Feature Matrix [N &times; D]<br/>- Query / Centroids [K &times; D]<br/>- Output Scores / Assignments [N]"]
+        G2["Compute Threads Grid (1 thread per record)<br/>thread_position_in_grid.x"]
+        G3["Parallel Execution in SIMD-groups (32 threads)<br/>- Independent record distance<br/>- Centroid minimization<br/>- Anomaly scoring"]
+    end
+
+    H1 --> H2
+    H2 --> H3
+    H3 --> G1
+    H4 --> G2
+    G1 --> G2
+    G2 --> G3
+    G3 --> G1
+    G1 --> H7
+
+    classDef host fill:#f0f7ff,stroke:#0366d6,stroke-width:1.5px;
+    classDef gpu fill:#f6ffed,stroke:#52c41a,stroke-width:1.5px;
+    class HOST host;
+    class GPU gpu;

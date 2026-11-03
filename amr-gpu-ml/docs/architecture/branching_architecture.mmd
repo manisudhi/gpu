@@ -1,0 +1,23 @@
+flowchart TD
+    DS["NCBI Pathogen Detection Data<br/>(PDG000000012.2550 + isolates.tsv)"] --> VAL["Data Validation & Ingestion<br/>(scripts/download_data.py)"]
+    VAL --> PREP["Data Preprocessing & Cleaning<br/>(Standardize AST, Parse Genotypes)"]
+    PREP --> FEAT["Numerical Feature Matrix Construction<br/>(Multi-hot Determinants, Contiguous float32)"]
+    
+    FEAT --> CHK["Subsample Correctness Validation<br/>(NumPy Reference, Tolerance &epsilon; < 10&#8315;&#8308;)"]
+    
+    FEAT --> B1["Branch 1: Supervised ML<br/>(Deep MLP, Multi-Task, Autoencoder on MPS)"]
+    FEAT --> B2["Branch 2: Parallel Similarity<br/>(Metal Query-vs-All Kernel, GPU Top-K)"]
+    FEAT --> B3["Branch 3: K-Means Clustering<br/>(Metal Nearest-Centroid Kernel + GPU Reduction)"]
+    FEAT --> B4["Branch 4: Anomaly Detection<br/>(Metal Distance-to-Centroid Kernel + 99th Percentile)"]
+    
+    B1 --> CONV["Converged Analytical Results"]
+    B2 --> CONV
+    B3 --> CONV
+    B4 --> CONV
+    
+    CONV --> CHAR["GPU Pipeline Characterization<br/>(Stage Timings, Throughput, Workload Scaling)"]
+    CHAR --> REP["Visualization & Reporting<br/>(Reports, Tables, Figures, Dashboard)"]
+
+    classDef default fill:#f9fbfd,stroke:#2b5c8f,stroke-width:1.5px;
+    classDef branch fill:#e8f4fd,stroke:#1f77b4,stroke-width:2px;
+    class B1,B2,B3,B4 branch;

@@ -1,0 +1,6 @@
+Cluster,Isolates_Count,MDR_Rate_Pct,Top_Source,Top_Country,Dominant_Resistance_Genes
+Cluster 0,5135,2.4%,Other_Clinical,USA,"emrD (99.9%), fosA (90.4%), oqxA (79.4%), oqxB (46.0%), burden (42.7%)"
+Cluster 1,2097,6.2%,Other_Clinical,USA,"burden (111.2%), fosA (100.0%), emrD (99.9%), parC_S80I (99.9%), gyrA_S83I (99.8%)"
+Cluster 2,1767,3.6%,Other_Clinical,China,"fosA (99.8%), emrD (99.5%), parC_S80I (95.9%), burden (91.0%), gyrA_S83I (88.6%)"
+Cluster 3,2741,1.5%,Other_Clinical,United Kingdom,"emrD (99.9%), burden (95.8%), fosA (95.6%), blaCTX-M-15 (93.3%), oqxA (90.7%)"
+Cluster 4,2843,2.1%,Other_Clinical,Thailand,"burden (117.5%), emrD (99.9%), fosA (98.3%), sul1 (94.4%), oqxA (92.5%)"
