@@ -1,0 +1,233 @@
+{
+  "phase_1": {
+    "total_records": 14583,
+    "ast_records": 604,
+    "figures_generated": [
+      "eda_isolates_per_year.png",
+      "eda_geographic_distribution.png",
+      "eda_host_and_source.png",
+      "eda_top_amr_genes.png",
+      "eda_missing_data_profile.png",
+      "eda_ast_label_balance.png",
+      "eda_coresistance_heatmap.png"
+    ]
+  },
+  "phase_2": {
+    "feature_matrix_shape": [
+      14583,
+      263
+    ],
+    "num_features": 263,
+    "labels_shape": [
+      14583,
+      10
+    ],
+    "mdr_positive_rate_pct": 2.8457791805267334
+  },
+  "phase_3": {
+    "apple_silicon_device": "Apple M3",
+    "mlx_available": false,
+    "torch_mps_active": true,
+    "similarity_euclidean_max_diff": 4.76837158203125e-07,
+    "kmeans_assign_match_pct": 100.0,
+    "anomaly_score_max_diff": 4.76837158203125e-07,
+    "tolerance": 0.0001,
+    "validation_passed": true
+  },
+  "phase_4": {
+    "mean_accuracy": 0.8174809615382921,
+    "mean_balanced_accuracy": 0.8182227672548379,
+    "mean_f1": 0.853150475299129,
+    "mean_mcc": 0.6030138413016435,
+    "mean_roc_auc": 0.8889787042020977,
+    "top_attributions": {
+      "meropenem": [
+        [
+          "blaKPC-3",
+          0.7877794504165649
+        ],
+        [
+          "blaKPC-2",
+          0.46567976474761963
+        ]
+      ],
+      "imipenem": [
+        [
+          "blaKPC-3",
+          0.8533627986907959
+        ],
+        [
+          "blaKPC-2",
+          0.4780910015106201
+        ]
+      ],
+      "ertapenem": [
+        [
+          "blaKPC-3",
+          0.7467658519744873
+        ],
+        [
+          "dfrA5",
+          0.48563873767852783
+        ]
+      ],
+      "ceftazidime": [
+        [
+          "blaKPC-3",
+          0.7601767778396606
+        ],
+        [
+          "blaKPC-2",
+          0.38666099309921265
+        ]
+      ],
+      "cefepime": [
+        [
+          "blaKPC-3",
+          0.7318972945213318
+        ],
+        [
+          "aac(6')-Ib",
+          0.44953295588493347
+        ]
+      ],
+      "ciprofloxacin": [
+        [
+          "blaKPC-3",
+          0.5586903691291809
+        ],
+        [
+          "gyrA_S83I",
+          0.49183815717697144
+        ]
+      ],
+      "amikacin": [
+        [
+          "aac(6')-Ib",
+          0.9612047672271729
+        ],
+        [
+          "blaOXA-2",
+          0.48746395111083984
+        ]
+      ],
+      "gentamicin": [
+        [
+          "ant(2'')-Ia",
+          0.6596439480781555
+        ],
+        [
+          "aac(3)-IIe",
+          0.6338731050491333
+        ]
+      ],
+      "colistin": [
+        [
+          "blaSHV-12",
+          0.3476095497608185
+        ],
+        [
+          "blaKPC-3",
+          0.3434574007987976
+        ]
+      ],
+      "trimethoprim-sulfamethoxazole": [
+        [
+          "sul1",
+          0.4917779266834259
+        ],
+        [
+          "blaSHV-26",
+          0.39090847969055176
+        ]
+      ]
+    }
+  },
+  "phase_5": {
+    "query_isolate_index": 1059,
+    "top_5_matches": [
+      1059,
+      1891,
+      1058,
+      9795,
+      12632
+    ],
+    "top_5_distances": [
+      0.0,
+      2.881405830383301,
+      3.001864194869995,
+      3.026745557785034,
+      3.1815874576568604
+    ],
+    "latent_top_5_matches": [
+      1059,
+      9795,
+      363,
+      1891,
+      12632
+    ]
+  },
+  "phase_6": {
+    "chosen_k": 5,
+    "inertia": 135466.84375,
+    "iterations_to_converge": 21,
+    "cluster_sizes": [
+      5135,
+      2097,
+      1767,
+      2741,
+      2843
+    ]
+  },
+  "phase_7": {
+    "threshold": 4.60759162902832,
+    "rule": "99th Percentile Rule (Threshold=4.608)",
+    "flagged_isolates_count": 146,
+    "flagged_rate_pct": 1.0011657409312213,
+    "top_anomaly_score": 5.617623329162598
+  },
+  "phase_8": {
+    "real_dataset_upload_ms": 1.293666999117704,
+    "similarity_kernel_ms": 3.7877250004385132,
+    "kmeans_assign_kernel_ms": 3.222516599635128,
+    "peak_throughput": 5558540.0,
+    "scaling_results": [
+      {
+        "Workload_Size": 20000,
+        "GPU_Kernel_Time_ms": "4.02 \u00b1 0.06",
+        "Throughput_records_per_s": "4,977,481",
+        "Memory_Footprint_MB": "20.1 MB",
+        "Workload_Type": "Controlled Synthetic Scaling"
+      },
+      {
+        "Workload_Size": 50000,
+        "GPU_Kernel_Time_ms": "9.00 \u00b1 0.19",
+        "Throughput_records_per_s": "5,558,540",
+        "Memory_Footprint_MB": "50.2 MB",
+        "Workload_Type": "Controlled Synthetic Scaling"
+      },
+      {
+        "Workload_Size": 100000,
+        "GPU_Kernel_Time_ms": "18.12 \u00b1 0.31",
+        "Throughput_records_per_s": "5,519,758",
+        "Memory_Footprint_MB": "100.3 MB",
+        "Workload_Type": "Controlled Synthetic Scaling"
+      },
+      {
+        "Workload_Size": 500000,
+        "GPU_Kernel_Time_ms": "94.46 \u00b1 2.39",
+        "Throughput_records_per_s": "5,293,384",
+        "Memory_Footprint_MB": "501.6 MB",
+        "Workload_Type": "Controlled Synthetic Scaling"
+      },
+      {
+        "Workload_Size": 1000000,
+        "GPU_Kernel_Time_ms": "227.96 \u00b1 33.18",
+        "Throughput_records_per_s": "4,386,736",
+        "Memory_Footprint_MB": "1003.3 MB",
+        "Workload_Type": "Controlled Synthetic Scaling"
+      }
+    ]
+  },
+  "total_pipeline_time_s": 34.117767095565796
+}
